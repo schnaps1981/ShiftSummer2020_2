@@ -8,7 +8,7 @@
         android:valueTo="0"
         android:valueType="floatType" />
     <objectAnimator
-        android:duration="1500"
+        android:duration="700"
         android:interpolator="@android:anim/accelerate_decelerate_interpolator"
         android:propertyName="x"
         android:valueFrom="0"

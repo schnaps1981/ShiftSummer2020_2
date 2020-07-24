@@ -2,11 +2,7 @@ package com.shiftsummer2020_2.ui.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
-import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN
-import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shiftsummer2020_2.R
 import com.shiftsummer2020_2.app.Constants
@@ -45,7 +41,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 val detailsFragment = DetailsFragment.getInstance(args = bundle)
                 parentFragmentManager
                     .beginTransaction()
-                    .setCustomAnimations(R.animator.slide_in_left, R.animator.slide_in_right)
+                    .setCustomAnimations(R.animator.slide_in_top, R.animator.slide_out_right)
                     .replace(R.id.frame_main_activity, detailsFragment)
                     .addToBackStack(null)
                     .commit()
