@@ -23,7 +23,6 @@ class CityListFragment : Fragment(R.layout.fragment_city_list) {
     private val cityAdapter = CityListAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         rvCitiesList.layoutManager = LinearLayoutManager(activity?.applicationContext)
         rvCitiesList.adapter = cityAdapter
@@ -48,7 +47,7 @@ class CityListFragment : Fragment(R.layout.fragment_city_list) {
     {
         val bundle = Bundle()
         bundle.putParcelable(Constants.KEY_WEATHER_DETAILS, model)
-        val detailsFragment = DetailsFragment.getInstance(args = bundle)
+        val detailsFragment = DetailsFragment.newInstance(args = bundle)
         parentFragmentManager
             .beginTransaction()
             .setCustomAnimations(R.animator.slide_in_top, R.animator.slide_out_right)
@@ -60,7 +59,7 @@ class CityListFragment : Fragment(R.layout.fragment_city_list) {
 
 
     companion object {
-        fun getInstance(args: Bundle? = null): CityListFragment {
+        fun newInstance(args: Bundle? = null): CityListFragment {
             return CityListFragment().also { it.arguments = args }
         }
     }

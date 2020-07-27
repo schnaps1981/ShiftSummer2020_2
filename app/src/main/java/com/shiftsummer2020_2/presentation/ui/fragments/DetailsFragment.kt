@@ -26,7 +26,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     }
 
     companion object {
-        fun getInstance(args: Bundle? = null): DetailsFragment {
+        fun newInstance(args: Bundle? = null): DetailsFragment {
             return DetailsFragment().also { it.arguments = args }
         }
     }

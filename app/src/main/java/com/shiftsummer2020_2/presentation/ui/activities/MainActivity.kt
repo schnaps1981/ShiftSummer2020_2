@@ -11,10 +11,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        val mainFragment = CityListFragment.getInstance()
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.frame_main_activity, mainFragment)
-            .commit()
+        if (savedInstanceState == null) {
+            val mainFragment =  CityListFragment.newInstance()
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frame_main_activity, mainFragment)
+                .commit()
+        }
     }
 }

@@ -1,12 +1,11 @@
 package com.shiftsummer2020_2.presentation.ui.base
 
+import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseAdapter<P>: RecyclerView.Adapter<BaseViewHolder<P>>() {
     protected var mDataList: MutableList<P> = ArrayList()
     private var mCallback: BaseAdapterCallback<P>? = null
-
-    var hasItems = false
 
     fun attachCallback(callback: BaseAdapterCallback<P>) {
         this.mCallback = callback
@@ -18,7 +17,6 @@ abstract class BaseAdapter<P>: RecyclerView.Adapter<BaseViewHolder<P>>() {
 
     fun setList(dataList: List<P>) {
         mDataList.addAll(dataList)
-        hasItems = true
         notifyDataSetChanged()
     }
 
@@ -53,6 +51,10 @@ abstract class BaseAdapter<P>: RecyclerView.Adapter<BaseViewHolder<P>>() {
             ) ?: false
         }
 
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<P> {
+        TODO("Not yet implemented")
     }
 
     override fun getItemCount(): Int {
