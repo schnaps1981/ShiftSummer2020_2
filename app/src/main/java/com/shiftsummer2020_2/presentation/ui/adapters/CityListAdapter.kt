@@ -1,13 +1,12 @@
-package com.shiftsummer2020_2.ui.adapters
+package com.shiftsummer2020_2.presentation.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.shiftsummer2020_2.R
-import com.shiftsummer2020_2.data.apimodel.Data
 import com.shiftsummer2020_2.data.appmodel.City
-import com.shiftsummer2020_2.ui.base.BaseAdapter
-import com.shiftsummer2020_2.ui.base.BaseViewHolder
-import com.shiftsummer2020_2.ui.viewholders.CityViewHolder
+import com.shiftsummer2020_2.presentation.ui.base.BaseAdapter
+import com.shiftsummer2020_2.presentation.ui.base.BaseViewHolder
+import com.shiftsummer2020_2.presentation.ui.viewholders.CityViewHolder
 
 class CityListAdapter : BaseAdapter<City>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<City> {

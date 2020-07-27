@@ -1,9 +1,9 @@
-package com.shiftsummer2020_2.ui.activities
+package com.shiftsummer2020_2.presentation.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.shiftsummer2020_2.R
-import com.shiftsummer2020_2.ui.fragments.MainFragment
+import com.shiftsummer2020_2.presentation.ui.fragments.CityListFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        val mainFragment = MainFragment.getInstance()
+        val mainFragment = CityListFragment.getInstance()
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.frame_main_activity, mainFragment)

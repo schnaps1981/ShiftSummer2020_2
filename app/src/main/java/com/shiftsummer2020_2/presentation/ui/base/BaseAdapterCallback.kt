@@ -1,4 +1,4 @@
-package com.shiftsummer2020_2.ui.base
+package com.shiftsummer2020_2.presentation.ui.base
 
 import android.view.View
 
