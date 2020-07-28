@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shiftsummer2020_2.R
 import com.shiftsummer2020_2.app.Constants
@@ -28,33 +29,29 @@ class CityListFragment : Fragment(R.layout.fragment_city_list) {
         rvCitiesList.adapter = cityAdapter
 
         viewModel.cityList.observe(viewLifecycleOwner, Observer(::setCityList))
-        viewModel.cityClickEvent.observe(viewLifecycleOwner, Observer(::showWeatherDetails))
+        viewModel.cityClickEvent.observe(viewLifecycleOwner, Observer {
+            showWeatherDetails(it, view)
+        })
 
 
-        cityAdapter.attachCallback(object : BaseAdapterCallback<City>{
+        cityAdapter.attachCallback(object : BaseAdapterCallback<City> {
             override fun onItemClick(model: City, view: View) {
                 viewModel.cityClicked(model)
             }
         })
     }
 
-    private fun setCityList(cityList : List<City>)
-    {
+    private fun setCityList(cityList: List<City>) {
         cityAdapter.updateItems(cityList)
     }
 
-    private fun showWeatherDetails(model: City)
-    {
+    private fun showWeatherDetails(model: City, view: View) {
         val bundle = Bundle()
         bundle.putParcelable(Constants.KEY_WEATHER_DETAILS, model)
-        val detailsFragment = DetailsFragment.newInstance(args = bundle)
-        parentFragmentManager
-            .beginTransaction()
-            .setCustomAnimations(R.animator.slide_in_top, R.animator.slide_out_right)
-            .replace(R.id.frame_main_activity, detailsFragment)
-            .addToBackStack(null)
-            .commit()
 
+        Navigation
+            .findNavController(view)
+            .navigate(R.id.action_cityListFragment_to_detailsFragment, bundle)
     }
 
 
