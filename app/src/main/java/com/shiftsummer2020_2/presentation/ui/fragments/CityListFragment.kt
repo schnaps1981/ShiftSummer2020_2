@@ -11,9 +11,10 @@ import com.shiftsummer2020_2.R
 import com.shiftsummer2020_2.app.Constants
 import com.shiftsummer2020_2.data.appmodel.City
 import com.shiftsummer2020_2.presentation.ui.adapters.CityListAdapter
-import com.shiftsummer2020_2.presentation.ui.base.BaseAdapterCallback
 import com.shiftsummer2020_2.presentation.viewmodels.CityListViewModel
 import kotlinx.android.synthetic.main.fragment_city_list.*
+import timber.log.Timber
+import kotlin.random.Random
 
 
 class CityListFragment : Fragment(R.layout.fragment_city_list) {
@@ -21,7 +22,9 @@ class CityListFragment : Fragment(R.layout.fragment_city_list) {
 
     private val viewModel: CityListViewModel by viewModels()
 
-    private val cityAdapter = CityListAdapter()
+    private val cityAdapter = CityListAdapter(onClickListener = { city ->
+        viewModel.cityClicked(city = city)
+    })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -33,15 +36,8 @@ class CityListFragment : Fragment(R.layout.fragment_city_list) {
             showWeatherDetails(it, view)
         })
 
-
-        cityAdapter.attachCallback(object : BaseAdapterCallback<City> {
-            override fun onItemClick(model: City, view: View) {
-                viewModel.cityClicked(model)
-            }
-        })
-
         fabAddCity.setOnClickListener {
-            viewModel.cityAdded(City("Rostov" to null))
+            viewModel.cityAdded(City("City-${Random.nextInt(0, Int.MAX_VALUE)}" to null))
         }
     }
 

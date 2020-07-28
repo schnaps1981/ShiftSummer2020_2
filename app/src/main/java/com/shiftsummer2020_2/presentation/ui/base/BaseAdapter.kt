@@ -1,22 +1,17 @@
 package com.shiftsummer2020_2.presentation.ui.base
 
+import android.view.View
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 
-abstract class BaseAdapter<P> : RecyclerView.Adapter<BaseViewHolder<P>>() {
+abstract class BaseAdapter<P>(
+    private val onClickListener: ((P) -> Unit)? = null,
+    private val onLongClickListener: ((P) -> Boolean)? = null
+) :
+    RecyclerView.Adapter<BaseViewHolder<P>>() {
     protected var mDataList: MutableList<P> = ArrayList()
-    private var mCallback: BaseAdapterCallback<P>? = null
-
     private var mDiffCallback: DiffCallback<P>? = null
-
-    fun attachCallback(callback: BaseAdapterCallback<P>) {
-        this.mCallback = callback
-    }
-
-    fun detachCallback() {
-        this.mCallback = null
-    }
 
     fun setDiffCallBack(callback: DiffCallback<P>) {
         this.mDiffCallback = callback
@@ -35,25 +30,20 @@ abstract class BaseAdapter<P> : RecyclerView.Adapter<BaseViewHolder<P>>() {
             diffResult.dispatchUpdatesTo(this)
             mDataList.clear()
             mDataList.addAll(mNewList)
-        } ?: throw NotImplementedError("You must set mDiffCallback as DiffUtil.Callback in child adapter")
+        }
+            ?: throw NotImplementedError("You must set mDiffCallback as DiffUtil.Callback in child adapter")
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<P>, position: Int) {
         holder.bind(mDataList[position])
 
         holder.itemView.setOnClickListener {
-            mCallback?.onItemClick(
-                mDataList[position],
-                holder.itemView
-            )
-        }
-        holder.itemView.setOnLongClickListener {
-            mCallback?.onLongClick(
-                mDataList[position],
-                holder.itemView
-            ) ?: false
+            onClickListener?.invoke(mDataList[position])
         }
 
+        holder.itemView.setOnLongClickListener{
+            onLongClickListener?.invoke(mDataList[position]) ?: false
+        }
     }
 
     override fun getItemCount(): Int {
