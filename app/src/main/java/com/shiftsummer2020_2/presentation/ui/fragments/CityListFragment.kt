@@ -39,10 +39,14 @@ class CityListFragment : Fragment(R.layout.fragment_city_list) {
                 viewModel.cityClicked(model)
             }
         })
+
+        fabAddCity.setOnClickListener {
+            viewModel.cityAdded(City("Rostov" to null))
+        }
     }
 
     private fun setCityList(cityList: List<City>) {
-        cityAdapter.updateItems(cityList)
+        cityAdapter.setListDiff(cityList)
     }
 
     private fun showWeatherDetails(model: City, view: View) {

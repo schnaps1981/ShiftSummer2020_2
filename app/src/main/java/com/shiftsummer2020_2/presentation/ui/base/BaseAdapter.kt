@@ -1,11 +1,14 @@
 package com.shiftsummer2020_2.presentation.ui.base
 
-import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseAdapter<P>: RecyclerView.Adapter<BaseViewHolder<P>>() {
+
+abstract class BaseAdapter<P> : RecyclerView.Adapter<BaseViewHolder<P>>() {
     protected var mDataList: MutableList<P> = ArrayList()
     private var mCallback: BaseAdapterCallback<P>? = null
+
+    private var mDiffCallback: DiffCallback<P>? = null
 
     fun attachCallback(callback: BaseAdapterCallback<P>) {
         this.mCallback = callback
@@ -15,24 +18,24 @@ abstract class BaseAdapter<P>: RecyclerView.Adapter<BaseViewHolder<P>>() {
         this.mCallback = null
     }
 
+    fun setDiffCallBack(callback: DiffCallback<P>) {
+        this.mDiffCallback = callback
+    }
+
+    @Deprecated("Use setListDiff method")
     fun setList(dataList: List<P>) {
         mDataList.addAll(dataList)
         notifyDataSetChanged()
     }
 
-    fun addItem(newItem: P) {
-        mDataList.add(newItem)
-        notifyItemInserted(mDataList.size - 1)
-    }
-
-    fun addItemToTop(newItem: P) {
-        mDataList.add(0, newItem)
-        notifyItemInserted(0)
-    }
-
-    fun updateItems(itemsList: List<P>) {
-        mDataList.clear()
-        setList(itemsList)
+    fun setListDiff(mNewList: List<P>) {
+        mDiffCallback?.let {
+            it.setLists(mDataList, mNewList)
+            val diffResult = DiffUtil.calculateDiff(it)
+            diffResult.dispatchUpdatesTo(this)
+            mDataList.clear()
+            mDataList.addAll(mNewList)
+        } ?: throw NotImplementedError("You must set mDiffCallback as DiffUtil.Callback in child adapter")
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<P>, position: Int) {
@@ -53,11 +56,33 @@ abstract class BaseAdapter<P>: RecyclerView.Adapter<BaseViewHolder<P>>() {
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<P> {
-        TODO("Not yet implemented")
-    }
-
     override fun getItemCount(): Int {
         return mDataList.count()
+    }
+
+    abstract class DiffCallback<P> : DiffUtil.Callback() {
+
+        private val mOldItems = arrayListOf<P>()
+        private val mNewItems = arrayListOf<P>()
+
+        fun setLists(oldItems: List<P>, newItems: List<P>) {
+            mOldItems.clear()
+            mOldItems.addAll(oldItems)
+
+            mNewItems.clear()
+            mNewItems.addAll(newItems)
+        }
+
+        override fun getOldListSize() = mOldItems.size
+        override fun getNewListSize() = mNewItems.size
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+            areItemsTheSame(mOldItems[oldItemPosition], mNewItems[newItemPosition])
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+            areContentsTheSame(mOldItems[oldItemPosition], mNewItems[newItemPosition])
+
+        abstract fun areItemsTheSame(oldItem: P, newItem: P): Boolean
+        abstract fun areContentsTheSame(oldItem: P, newItem: P): Boolean
     }
 }
