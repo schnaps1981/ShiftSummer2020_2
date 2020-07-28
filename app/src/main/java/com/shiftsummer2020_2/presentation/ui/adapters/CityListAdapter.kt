@@ -9,6 +9,16 @@ import com.shiftsummer2020_2.presentation.ui.base.BaseViewHolder
 import com.shiftsummer2020_2.presentation.ui.viewholders.CityViewHolder
 
 class CityListAdapter : BaseAdapter<City>() {
+    init {
+        this.setDiffCallBack(object : DiffCallback<City>() {
+            override fun itemsTheSame(oldItem: City, newItem: City) =
+                oldItem.city.first == newItem.city.first
+
+            override fun contentsTheSame(oldItem: City, newItem: City) =
+                oldItem == newItem
+        })
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<City> {
         return CityViewHolder(
             LayoutInflater
