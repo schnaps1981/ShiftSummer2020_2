@@ -1,4 +1,4 @@
-package com.shiftsummer2020_2.presentation.viewmodels.global
+package com.shiftsummer2020_2.global.viewmodel
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner

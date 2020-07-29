@@ -1,4 +1,4 @@
-package com.shiftsummer2020_2.data.apimodel
+package com.shiftsummer2020_2.screens.main.data.entities.apimodel
 
 data class Data(
     val app_temp: Double,

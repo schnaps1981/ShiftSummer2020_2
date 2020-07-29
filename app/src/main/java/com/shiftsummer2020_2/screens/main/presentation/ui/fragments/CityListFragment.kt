@@ -1,4 +1,4 @@
-package com.shiftsummer2020_2.presentation.ui.fragments
+package com.shiftsummer2020_2.screens.main.presentation.ui.fragments
 
 import android.os.Bundle
 import android.view.View
@@ -9,22 +9,25 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shiftsummer2020_2.R
 import com.shiftsummer2020_2.app.Constants
-import com.shiftsummer2020_2.data.appmodel.City
-import com.shiftsummer2020_2.presentation.ui.adapters.CityListAdapter
-import com.shiftsummer2020_2.presentation.viewmodels.CityListViewModel
+import com.shiftsummer2020_2.screens.main.domain.entities.City
+import com.shiftsummer2020_2.screens.main.di.CityListViewModelFactory
+import com.shiftsummer2020_2.screens.main.presentation.ui.adapters.CityListAdapter
+import com.shiftsummer2020_2.screens.main.presentation.viewmodels.CityListViewModel
 import kotlinx.android.synthetic.main.fragment_city_list.*
-import timber.log.Timber
 import kotlin.random.Random
 
 
 class CityListFragment : Fragment(R.layout.fragment_city_list) {
 
+    private val viewModel: CityListViewModel by viewModels {
+        CityListViewModelFactory()
+    }
 
-    private val viewModel: CityListViewModel by viewModels()
-
-    private val cityAdapter = CityListAdapter(onClickListener = { city ->
-        viewModel.cityClicked(city = city)
-    })
+    private val cityAdapter =
+        CityListAdapter(
+            onClickListener = { city ->
+                viewModel.cityClicked(city = city)
+            })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -37,7 +40,11 @@ class CityListFragment : Fragment(R.layout.fragment_city_list) {
         })
 
         fabAddCity.setOnClickListener {
-            viewModel.cityAdded(City("City-${Random.nextInt(0, Int.MAX_VALUE)}" to null))
+            viewModel.cityAdded(
+                City(
+                    "City-${Random.nextInt(0, Int.MAX_VALUE)}" to null
+                )
+            )
         }
     }
 
@@ -54,10 +61,10 @@ class CityListFragment : Fragment(R.layout.fragment_city_list) {
             .navigate(R.id.action_cityListFragment_to_detailsFragment, bundle)
     }
 
-
     companion object {
         fun newInstance(args: Bundle? = null): CityListFragment {
-            return CityListFragment().also { it.arguments = args }
+            return CityListFragment()
+                .also { it.arguments = args }
         }
     }
 }

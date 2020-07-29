@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/cityListFragment"
-        android:name="com.shiftsummer2020_2.presentation.ui.fragments.CityListFragment"
+        android:name="com.shiftsummer2020_2.screens.main.presentation.ui.fragments.CityListFragment"
         android:label="fragment_city_list"
         tools:layout="@layout/fragment_city_list"
         app:startDestination="@id/action_cityListFragment_to_detailsFragment">
@@ -19,11 +19,11 @@
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.shiftsummer2020_2.presentation.ui.fragments.DetailsFragment"
+        android:name="com.shiftsummer2020_2.screens.details.presentation.ui.fragments.DetailsFragment"
         android:label="fragment_details"
         tools:layout="@layout/fragment_details" >
         <argument
             android:name="cityDetails"
-            app:argType="com.shiftsummer2020_2.data.appmodel.City" />
+            app:argType="com.shiftsummer2020_2.screens.main.domain.entities.City" />
     </fragment>
 </navigation>

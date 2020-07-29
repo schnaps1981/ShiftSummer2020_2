@@ -1,4 +1,4 @@
-package com.shiftsummer2020_2.presentation.ui.base
+package com.shiftsummer2020_2.global.baseadapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

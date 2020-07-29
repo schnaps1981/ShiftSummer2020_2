@@ -1,7 +1,7 @@
-package com.shiftsummer2020_2.data.appmodel
+package com.shiftsummer2020_2.screens.main.domain.entities
 
 import android.os.Parcelable
-import com.shiftsummer2020_2.data.apimodel.WeatherParams
+import com.shiftsummer2020_2.screens.main.data.entities.apimodel.WeatherParams
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
