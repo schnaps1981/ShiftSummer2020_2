@@ -1,6 +1,6 @@
 package com.shiftsummer2020_2.screens.main.domain
 
-import com.shiftsummer2020_2.screens.main.domain.entities.City
+import City
 
 interface CitiesRepository {
     fun getCities() : ArrayList<City>

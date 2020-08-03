@@ -1,6 +1,6 @@
 package com.shiftsummer2020_2.screens.main.data
 
-import com.shiftsummer2020_2.screens.main.domain.entities.City
+import City
 
 interface CitiesDataSource {
     fun getCities() : ArrayList<City>
@@ -9,13 +9,13 @@ interface CitiesDataSource {
 class CitiesDataSourceImpl :
     CitiesDataSource {
     override fun getCities(): ArrayList<City> = arrayListOf(
-        City("Tomsk" to null),
-        City("Novosibirsk" to null),
-        City("Rostov-on-Don" to null),
-        City("Krasnodar" to null),
-        City("Kaliningrad" to null),
-        City("Khabarovsk" to null),
-        City("Vladivostok" to null)
+        City(id = 1, city = "Tomsk"),
+        City(id = 2, city = "Novosibirsk"),
+        City(id = 3, city = "Rostov-on-Don"),
+        City(id = 4, city = "Krasnodar"),
+        City(id = 5, city = "Kaliningrad"),
+        City(id = 6, city = "Khabarovsk"),
+        City(id = 7, city = "Vladivostok")
     )
 
 }

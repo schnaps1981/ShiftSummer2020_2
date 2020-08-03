@@ -1,11 +1,11 @@
 package com.shiftsummer2020_2.screens.details.presentation.ui.fragments
 
+import City
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import com.shiftsummer2020_2.R
 import com.shiftsummer2020_2.app.Constants
-import com.shiftsummer2020_2.screens.main.domain.entities.City
 import kotlinx.android.synthetic.main.fragment_details.*
 
 class DetailsFragment : Fragment(R.layout.fragment_details) {
@@ -15,14 +15,14 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            details = it.getParcelable(Constants.KEY_WEATHER_DETAILS)
+            details = it.getSerializable(Constants.KEY_WEATHER_DETAILS) as City?
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tvCityDetail.text = details?.city?.first
+        tvCityDetail.text = details?.city
     }
 
     companion object {

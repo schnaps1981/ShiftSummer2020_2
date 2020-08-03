@@ -1,15 +1,14 @@
 package com.example.server.repository
 
 import City
+import com.example.server.db.dbQuery
+import com.example.server.db.table.Cities
+import com.example.server.db.table.toCity
+import org.jetbrains.exposed.sql.selectAll
 
 class CitiesRepository {
-        fun getAll() = arrayListOf(
-            City("Tomsk" to null),
-            City("Novosibirsk" to null),
-            City("Rostov-on-Don" to null),
-            City("Krasnodar" to null),
-            City("Kaliningrad" to null),
-            City("Khabarovsk" to null),
-            City("Vladivostok" to null)
-        )
+    suspend  fun getAll() =
+        dbQuery {
+            Cities.selectAll().map { it.toCity() }
+        }
 }

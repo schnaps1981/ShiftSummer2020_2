@@ -1,8 +1,8 @@
 package com.shiftsummer2020_2.screens.main.presentation.viewmodels
 
+import City
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.shiftsummer2020_2.screens.main.domain.entities.City
 import com.shiftsummer2020_2.screens.main.domain.GetCitiesListUseCase
 import com.shiftsummer2020_2.global.viewmodel.SingleLiveEvent
 

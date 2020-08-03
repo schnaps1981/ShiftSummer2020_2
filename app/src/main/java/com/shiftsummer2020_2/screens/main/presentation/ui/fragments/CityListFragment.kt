@@ -1,5 +1,6 @@
 package com.shiftsummer2020_2.screens.main.presentation.ui.fragments
 
+import City
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -9,7 +10,6 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shiftsummer2020_2.R
 import com.shiftsummer2020_2.app.Constants
-import com.shiftsummer2020_2.screens.main.domain.entities.City
 import com.shiftsummer2020_2.screens.main.di.CityListViewModelFactory
 import com.shiftsummer2020_2.screens.main.presentation.ui.adapters.CityListAdapter
 import com.shiftsummer2020_2.screens.main.presentation.viewmodels.CityListViewModel
@@ -41,9 +41,8 @@ class CityListFragment : Fragment(R.layout.fragment_city_list) {
 
         fabAddCity.setOnClickListener {
             viewModel.cityAdded(
-                City(
-                    "City-${Random.nextInt(0, Int.MAX_VALUE)}" to null
-                )
+                City(id =  Random.nextLong(0, Long.MAX_VALUE),
+                    city = "City-${Random.nextInt(0, Int.MAX_VALUE)}")
             )
         }
     }
@@ -54,7 +53,7 @@ class CityListFragment : Fragment(R.layout.fragment_city_list) {
 
     private fun showWeatherDetails(model: City, view: View) {
         val bundle = Bundle()
-        bundle.putParcelable(Constants.KEY_WEATHER_DETAILS, model)
+        bundle.putSerializable(Constants.KEY_WEATHER_DETAILS, model)
 
         Navigation
             .findNavController(view)
