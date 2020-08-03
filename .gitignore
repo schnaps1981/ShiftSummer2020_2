@@ -91,3 +91,10 @@
 /common/build/kotlin/compileKotlin/build-history.bin
 /common/build/kotlin/compileKotlin/last-build.bin
 /.gradle/
+/common/build/.transforms/b2fba2eca31ff93394a89f5445b386c2/jetified-common.jar
+/common/build/.transforms/b2fba2eca31ff93394a89f5445b386c2.bin
+/common/build/.transforms/f586a4a34e58254a453a0917cc128272.bin
+/common/build/classes/kotlin/main/CreateCityDto.class
+/common/build/kotlin/commonjar-classes.txt
+/common/build/libs/common.jar
+/common/build/tmp/jar/MANIFEST.MF
