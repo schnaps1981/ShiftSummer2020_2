@@ -16,3 +16,6 @@
 /gradle/wrapper/
 /gradlew.bat
 /gradlew
+/server/gradle/wrapper/gradle-wrapper.jar
+/server/gradlew
+/server/gradlew.bat
