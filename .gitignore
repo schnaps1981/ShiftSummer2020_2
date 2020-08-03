@@ -1,5 +1,4 @@
 *.iml
-.gradle
 /local.properties
 /.idea/caches
 /.idea/libraries
@@ -13,12 +12,6 @@
 .externalNativeBuild
 .cxx
 /.idea/
-/gradle/wrapper/
-/gradlew.bat
-/gradlew
-/server/gradle/wrapper/gradle-wrapper.jar
-/server/gradlew
-/server/gradlew.bat
 /common/build/classes/kotlin/main/com/shiftsummer2020_2/screens/main/data/entities/apimodel/Data.class
 /common/build/classes/kotlin/main/com/shiftsummer2020_2/screens/main/data/entities/apimodel/Weather.class
 /common/build/classes/kotlin/main/com/shiftsummer2020_2/screens/main/data/entities/apimodel/WeatherParams.class
