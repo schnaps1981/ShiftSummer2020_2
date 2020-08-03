@@ -1,4 +1,4 @@
 create TABLE CITIES (
     id serial primary key,
-    title text
+    city text
 )
