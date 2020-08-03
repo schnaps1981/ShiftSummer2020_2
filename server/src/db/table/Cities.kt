@@ -6,5 +6,5 @@ import org.jetbrains.exposed.sql.Table
 
 object Cities : Table() {
     val id: Column<Long> = Cities.long("id").autoIncrement().primaryKey()
-    val cityName: Column<String> = Cities.text("cityName")
+    val city: Column<String> = Cities.text("city")
 }

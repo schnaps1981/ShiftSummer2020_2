@@ -1,5 +1,6 @@
 package com.example.server
 
+import CreateCityDto
 import DatabaseFactory
 import com.example.server.repository.CitiesRepository
 import io.ktor.application.Application
@@ -8,10 +9,11 @@ import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
 import io.ktor.gson.gson
 import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
+import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.response.respondText
-import io.ktor.routing.get
-import io.ktor.routing.routing
+import io.ktor.routing.*
 import java.net.URI
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -37,11 +39,28 @@ fun Application.module(testing: Boolean = false) {
         init()
     }
 
+    val repository = CitiesRepository()
+
     routing {
-        get("/cities") {
-            val repository = CitiesRepository()
-            val cities = repository.getAll()
-            call.respond(cities)
+        route("/cities") {
+            get {
+                val cities = repository.getAll()
+                call.respond(cities)
+            }
+            post {
+                val city = call.receive<CreateCityDto>()
+                repository.add(city)
+                call.respond(HttpStatusCode.OK)
+            }
+            delete {
+                val id = call.request.queryParameters["id"]?.toLong()
+                if (id == null)
+                    call.respond(HttpStatusCode.NotFound)
+                else {
+                    repository.delete(id)
+                    call.respond(HttpStatusCode.OK)
+                }
+            }
         }
     }
 }
