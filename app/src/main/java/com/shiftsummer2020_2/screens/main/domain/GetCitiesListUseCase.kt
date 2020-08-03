@@ -1,9 +1,8 @@
 package com.shiftsummer2020_2.screens.main.domain
 
-import City
-
+import exapmle.com.common.City
 
 class GetCitiesListUseCase(private val citiesRepository: CitiesRepository) {
-    operator fun invoke(): ArrayList<City> = citiesRepository.getCities()
+    suspend operator fun invoke(): List<City> = citiesRepository.getCities()
 
 }

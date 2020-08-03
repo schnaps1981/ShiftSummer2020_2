@@ -12,9 +12,9 @@
 .externalNativeBuild
 .cxx
 /.idea/
-/common/build/classes/kotlin/main/com/shiftsummer2020_2/screens/main/data/entities/apimodel/Data.class
-/common/build/classes/kotlin/main/com/shiftsummer2020_2/screens/main/data/entities/apimodel/Weather.class
-/common/build/classes/kotlin/main/com/shiftsummer2020_2/screens/main/data/entities/apimodel/WeatherParams.class
+/common/build/classes/kotlin/main/com/shiftsummer2020_2/screens/main/data/entities/exapmle.com.common.apimodel/Data.class
+/common/build/classes/kotlin/main/com/shiftsummer2020_2/screens/main/data/entities/exapmle.com.common.apimodel/Weather.class
+/common/build/classes/kotlin/main/com/shiftsummer2020_2/screens/main/data/entities/exapmle.com.common.apimodel/WeatherParams.class
 /common/build/classes/kotlin/main/META-INF/common.kotlin_module
 /common/build/classes/kotlin/main/City.class
 /common/build/kotlin/compileKotlin/caches-jvm/inputs/source-to-output.tab

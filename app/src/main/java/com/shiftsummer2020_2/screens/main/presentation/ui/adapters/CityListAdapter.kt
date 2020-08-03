@@ -1,12 +1,12 @@
 package com.shiftsummer2020_2.screens.main.presentation.ui.adapters
 
-import City
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.shiftsummer2020_2.R
 import com.shiftsummer2020_2.global.baseadapter.BaseAdapter
 import com.shiftsummer2020_2.global.baseadapter.BaseViewHolder
 import com.shiftsummer2020_2.screens.main.presentation.ui.viewholders.CityViewHolder
+import exapmle.com.common.City
 
 class CityListAdapter(
     onClickListener: ((City) -> Unit)? = null,

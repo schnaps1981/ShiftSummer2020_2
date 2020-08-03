@@ -1,4 +1,5 @@
-import com.shiftsummer2020_2.screens.main.data.entities.apimodel.WeatherParams
+package exapmle.com.common
+
 import java.io.Serializable
 
 data class City(

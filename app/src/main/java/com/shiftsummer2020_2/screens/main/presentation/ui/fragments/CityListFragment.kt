@@ -1,6 +1,5 @@
 package com.shiftsummer2020_2.screens.main.presentation.ui.fragments
 
-import City
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -13,6 +12,7 @@ import com.shiftsummer2020_2.app.Constants
 import com.shiftsummer2020_2.screens.main.di.CityListViewModelFactory
 import com.shiftsummer2020_2.screens.main.presentation.ui.adapters.CityListAdapter
 import com.shiftsummer2020_2.screens.main.presentation.viewmodels.CityListViewModel
+import exapmle.com.common.City
 import kotlinx.android.synthetic.main.fragment_city_list.*
 import kotlin.random.Random
 
@@ -34,7 +34,11 @@ class CityListFragment : Fragment(R.layout.fragment_city_list) {
         rvCitiesList.layoutManager = LinearLayoutManager(activity?.applicationContext)
         rvCitiesList.adapter = cityAdapter
 
-        viewModel.cityList.observe(viewLifecycleOwner, Observer(::setCityList))
+        viewModel.cityList.observe(viewLifecycleOwner, Observer {
+            it?.let {list ->
+                setCityList(list)
+            }
+        })
         viewModel.cityClickEvent.observe(viewLifecycleOwner, Observer {
             showWeatherDetails(it, view)
         })

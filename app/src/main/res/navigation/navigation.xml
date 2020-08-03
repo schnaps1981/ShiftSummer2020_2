@@ -24,6 +24,6 @@
         tools:layout="@layout/fragment_details" >
         <argument
             android:name="cityDetails"
-            app:argType="com.shiftsummer2020_2.screens.main.domain.entities.City" />
+            app:argType="exapmle.com.common.City" />
     </fragment>
 </navigation>

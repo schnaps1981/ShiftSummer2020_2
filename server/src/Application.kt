@@ -1,8 +1,8 @@
 package com.example.server
 
-import CreateCityDto
 import DatabaseFactory
 import com.example.server.repository.CitiesRepository
+import exapmle.com.common.CreateCityDto
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -14,10 +14,12 @@ import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.response.respondText
 import io.ktor.routing.*
+import io.ktor.util.KtorExperimentalAPI
 import java.net.URI
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
+@KtorExperimentalAPI
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
     install(ContentNegotiation) {

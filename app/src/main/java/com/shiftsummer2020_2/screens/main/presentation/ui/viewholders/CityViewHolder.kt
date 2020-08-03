@@ -1,8 +1,9 @@
 package com.shiftsummer2020_2.screens.main.presentation.ui.viewholders
 
-import City
+
 import android.view.View
 import com.shiftsummer2020_2.global.baseadapter.BaseViewHolder
+import exapmle.com.common.City
 import kotlinx.android.synthetic.main.city_list_item.view.*
 
 class CityViewHolder(itemView: View) :

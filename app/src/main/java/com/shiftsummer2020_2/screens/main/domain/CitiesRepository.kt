@@ -1,7 +1,7 @@
 package com.shiftsummer2020_2.screens.main.domain
 
-import City
+import exapmle.com.common.City
 
 interface CitiesRepository {
-    fun getCities() : ArrayList<City>
+    suspend fun getCities() : List<City>
 }
