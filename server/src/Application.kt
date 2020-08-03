@@ -1,5 +1,6 @@
 package com.example.server
 
+import com.example.server.repository.CitiesRepository
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -21,8 +22,10 @@ fun Application.module(testing: Boolean = false) {
     }
 
     routing {
-        get("/") {
-            call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
+        get("/weather") {
+            val repository = CitiesRepository()
+            val cities = repository.getAll()
+            call.respond(cities)
         }
 
         get("/json/gson") {
