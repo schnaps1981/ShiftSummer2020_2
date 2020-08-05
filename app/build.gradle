@@ -69,7 +69,13 @@ dependencies {
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.5.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.8.0'
+
+    //Coroutines
+    def coroutines_versions = "1.3.8"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_versions"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_versions"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
 
     implementation project(':common')
 }

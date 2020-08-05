@@ -3,8 +3,8 @@ package com.shiftsummer2020_2.screens.main.presentation.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.shiftsummer2020_2.screens.main.domain.GetCitiesListUseCase
 import com.shiftsummer2020_2.global.viewmodel.SingleLiveEvent
+import com.shiftsummer2020_2.screens.main.domain.GetCitiesListUseCase
 import exapmle.com.common.City
 import kotlinx.coroutines.launch
 

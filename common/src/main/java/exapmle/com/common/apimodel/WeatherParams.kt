@@ -1,6 +1,8 @@
-package com.shiftsummer2020_2.screens.main.data.entities.apimodel
+package exapmle.com.common.apimodel
+
+import java.io.Serializable
 
 data class WeatherParams(
     val count: Int,
-    val `data`: List<Data>
-)
+    val data: List<Data>
+): Serializable

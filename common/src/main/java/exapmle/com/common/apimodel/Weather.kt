@@ -1,4 +1,4 @@
-package com.shiftsummer2020_2.screens.main.data.entities.apimodel
+package exapmle.com.common.apimodel
 
 data class Weather(
     val code: Int,

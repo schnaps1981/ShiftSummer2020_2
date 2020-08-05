@@ -46,12 +46,17 @@ dependencies {
     implementation "ch.qos.logback:logback-classic:$logback_version"
     implementation "io.ktor:ktor-server-core:$ktor_version"
     implementation "io.ktor:ktor-gson:$ktor_version"
+    implementation "io.ktor:ktor-client-gson:$ktor_version"
     testImplementation "io.ktor:ktor-server-tests:$ktor_version"
 
     implementation("org.postgresql:postgresql:42.2.2")
     implementation("org.flywaydb:flyway-core:6.4.3")
     implementation("org.jetbrains.exposed:exposed:0.17.7")
     implementation("com.zaxxer:HikariCP:2.7.8")
+
+    //Ktor Http Client
+    implementation("io.ktor:ktor-client-okhttp:$ktor_version")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.8.0")
 
     implementation project(":common")
 }
