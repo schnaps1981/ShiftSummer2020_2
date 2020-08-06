@@ -23,6 +23,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         super.onViewCreated(view, savedInstanceState)
 
         tvCityDetail.text = details?.city
+        tvTemperatureDetail.text = details?.temperature.toString()
     }
 
     companion object {

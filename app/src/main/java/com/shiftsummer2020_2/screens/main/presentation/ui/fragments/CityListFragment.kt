@@ -1,12 +1,17 @@
 package com.shiftsummer2020_2.screens.main.presentation.ui.fragments
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 import com.shiftsummer2020_2.R
 import com.shiftsummer2020_2.app.Constants
 import com.shiftsummer2020_2.screens.main.di.CityListViewModelFactory
@@ -19,15 +24,12 @@ import kotlin.random.Random
 
 class CityListFragment : Fragment(R.layout.fragment_city_list) {
 
-    private val viewModel: CityListViewModel by viewModels {
-        CityListViewModelFactory()
-    }
+    private val viewModel: CityListViewModel by viewModels { CityListViewModelFactory() }
 
-    private val cityAdapter =
-        CityListAdapter(
-            onClickListener = { city ->
-                viewModel.cityClicked(city = city)
-            })
+    private val cityAdapter = CityListAdapter(
+        onClickListener = { city -> viewModel.cityClicked(city = city) },
+        onLongClickListener = { city -> viewModel.cityClickedLong(city = city) }
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -35,20 +37,23 @@ class CityListFragment : Fragment(R.layout.fragment_city_list) {
         rvCitiesList.adapter = cityAdapter
 
         viewModel.cityList.observe(viewLifecycleOwner, Observer {
-            it?.let {list ->
+            it?.let { list ->
                 setCityList(list)
             }
         })
+
+        viewModel.errors.observe(viewLifecycleOwner, Observer {
+            showSnackbar(it)
+        })
+
         viewModel.cityClickEvent.observe(viewLifecycleOwner, Observer {
             showWeatherDetails(it, view)
         })
 
+        val addDialog = prepareAddDialog(viewModel)
+
         fabAddCity.setOnClickListener {
-            viewModel.cityAdded(
-                City(id =  Random.nextLong(0, Long.MAX_VALUE),
-                    city = "City-${Random.nextInt(0, Int.MAX_VALUE)}",
-                temperature = 0)
-            )
+          addDialog.show()
         }
     }
 
@@ -64,6 +69,24 @@ class CityListFragment : Fragment(R.layout.fragment_city_list) {
             .findNavController(view)
             .navigate(R.id.action_cityListFragment_to_detailsFragment, bundle)
     }
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(rvCitiesList, message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun prepareAddDialog(viewModel: CityListViewModel): AlertDialog {
+        val dialog = MaterialAlertDialogBuilder(context)
+        val view = layoutInflater.inflate(R.layout.add_city, null)
+        dialog.setView(view)
+        dialog.setPositiveButton("OK") { _: DialogInterface, _: Int ->
+            val city = view.findViewById(R.id.tvAddCityCity) as TextInputEditText
+            val temperature = view.findViewById(R.id.tvAddCityTemperature) as TextInputEditText
+            viewModel.addCity(city.text.toString(), temperature.text.toString().toInt())
+        }
+        dialog.setNegativeButton("Cancel") { _: DialogInterface, _: Int ->  }
+        return dialog.create()
+    }
+
 
     companion object {
         fun newInstance(args: Bundle? = null): CityListFragment {

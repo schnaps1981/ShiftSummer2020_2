@@ -3,9 +3,12 @@ package com.shiftsummer2020_2.screens.main.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.shiftsummer2020_2.screens.main.data.CitiesApi
-import com.shiftsummer2020_2.screens.main.data.CitiesDataSourceImpl
+import com.shiftsummer2020_2.screens.main.data.CitiesNetworkDataSourceImpl
 import com.shiftsummer2020_2.screens.main.data.CitiesRepositoryImpl
+import com.shiftsummer2020_2.screens.main.domain.AddCityUseCase
+import com.shiftsummer2020_2.screens.main.domain.DeleteCityUseCase
 import com.shiftsummer2020_2.screens.main.domain.GetCitiesListUseCase
+import com.shiftsummer2020_2.screens.main.domain.UpdateCityUseCase
 import com.shiftsummer2020_2.screens.main.presentation.viewmodels.CityListViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -30,11 +33,20 @@ class CityListViewModelFactory : ViewModelProvider.Factory {
 
             val api = retrofit.create(CitiesApi::class.java)
 
-            val citiesDataSource =  CitiesDataSourceImpl(api = api)
-            val citiesRepository =  CitiesRepositoryImpl(citiesDataSource = citiesDataSource)
-            val getCitiesListUseCase =  GetCitiesListUseCase(citiesRepository = citiesRepository)
+            val citiesDataSource = CitiesNetworkDataSourceImpl(api = api)
+            val citiesRepository = CitiesRepositoryImpl(citiesDataSource = citiesDataSource)
+            val getCitiesListUseCase = GetCitiesListUseCase(citiesRepository = citiesRepository)
+            val addCityUseCase = AddCityUseCase(citiesRepository = citiesRepository)
+            val deleteCityUseCase = DeleteCityUseCase(citiesRepository = citiesRepository)
+            val updateCityUseCase = UpdateCityUseCase(citiesRepository = citiesRepository)
 
-            return CityListViewModel(getCitiesListUseCase) as T
+
+            return CityListViewModel(
+                getCitiesListUseCase,
+                addCityUseCase,
+                deleteCityUseCase,
+                updateCityUseCase
+            ) as T
         } else {
             error("Unexpected class $modelClass")
         }
