@@ -11,21 +11,21 @@ import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.update
 
 class CitiesRepository {
-    suspend  fun getAll() =
+    suspend fun getAll() =
         dbQuery {
             Cities.selectAll().map { it.toCity() }
         }
 
-    suspend fun add(createCityDto: CityDto)
-    {
+    suspend fun add(createCityDto: CityDto) {
         dbQuery {
-            Cities.insert{ insertStatement ->
+            Cities.insert { insertStatement ->
                 insertStatement[city] = createCityDto.city
+                insertStatement[temperature] = createCityDto.temperature
             }
         }
     }
 
-    suspend fun delete(id : Long) {
+    suspend fun delete(id: Long) {
         dbQuery {
             Cities.deleteWhere {
                 Cities.id.eq(id)
@@ -34,12 +34,10 @@ class CitiesRepository {
         }
     }
 
-    suspend fun update(id: Long, createCityDto: CityDto)
-    {
+    suspend fun update(id: Long, createCityDto: CityDto) {
         dbQuery {
-            Cities.update {updateStatement ->
-                Cities.id.eq(id)
-                updateStatement[city] = createCityDto.city
+            Cities.update({ Cities.id eq id }) { updateStatement ->
+                updateStatement[temperature] = createCityDto.temperature
             }
         }
     }

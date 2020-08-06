@@ -2,16 +2,11 @@ package com.example.server
 
 import DatabaseFactory
 import com.example.server.repository.CitiesRepository
-import com.example.server.repository.WeatherAPIRepository
 import exapmle.com.common.CityDto
 import io.ktor.application.Application
 import io.ktor.application.ApplicationEnvironment
 import io.ktor.application.call
 import io.ktor.application.install
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.okhttp.OkHttp
-import io.ktor.client.features.json.GsonSerializer
-import io.ktor.client.features.json.JsonFeature
 import io.ktor.features.ContentNegotiation
 import io.ktor.gson.gson
 import io.ktor.http.HttpStatusCode
@@ -19,10 +14,7 @@ import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.*
 import io.ktor.util.KtorExperimentalAPI
-import kotlinx.coroutines.*
-import okhttp3.logging.HttpLoggingInterceptor
 import java.net.URI
-import kotlin.concurrent.fixedRateTimer
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -39,9 +31,6 @@ fun Application.module(testing: Boolean = false) {
     initDataBase(environment)
 
     val citiesRepository = CitiesRepository()
-
-    val httpClient = initHttpClient()
-    initParserSchedule(httpClient, citiesRepository)
 
     routing {
         route("/cities") {
@@ -74,28 +63,6 @@ fun Application.module(testing: Boolean = false) {
                 }
 
             }
-        }
-    }
-}
-
-fun initHttpClient(): HttpClient = HttpClient(OkHttp)
-{
-    install(JsonFeature) {
-        serializer = GsonSerializer()
-    }
-    engine {
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        addNetworkInterceptor(loggingInterceptor)
-    }
-}
-
-fun initParserSchedule(httpClient: HttpClient, citiesRepository: CitiesRepository) {
-    fixedRateTimer(name = "WeatherParser", daemon = false, initialDelay = 0L, period = 3 * 60 * 1000) //minutes * seconds * mills
-    {
-        val weatherAPIRepository = WeatherAPIRepository(httpClient, citiesRepository)
-        CoroutineScope(Dispatchers.IO).launch {
-            weatherAPIRepository.updateWeather()
         }
     }
 }

@@ -1,4 +1,5 @@
 create TABLE CITIES (
     id serial primary key,
-    city text
+    city text,
+    temperature integer
 )

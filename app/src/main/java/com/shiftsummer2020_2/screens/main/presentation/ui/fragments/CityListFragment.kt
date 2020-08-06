@@ -46,7 +46,8 @@ class CityListFragment : Fragment(R.layout.fragment_city_list) {
         fabAddCity.setOnClickListener {
             viewModel.cityAdded(
                 City(id =  Random.nextLong(0, Long.MAX_VALUE),
-                    city = "City-${Random.nextInt(0, Int.MAX_VALUE)}")
+                    city = "City-${Random.nextInt(0, Int.MAX_VALUE)}",
+                temperature = 0)
             )
         }
     }
