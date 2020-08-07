@@ -37,105 +37,66 @@ class CityListViewModel(
         cityItemClickEvent(city)
     }
 
-    fun deleteItem(city: City)
-    {
+    fun deleteItem(city: City) {
         viewModelScope.launch {
-            progressState.value = ProgressStatus.InProgress
-            when (val deleteCityUseCaseResult = deleteCityUseCase(city.id)) {
-                is ApiResultWrapper.NetworkError -> {
-                    messagesSnackbar.value = "Network Error"
-                    progressState.value = ProgressStatus.Fail
-                }
-                is ApiResultWrapper.ApiError -> {
-                    messagesSnackbar.value = deleteCityUseCaseResult.code?.toString()
-                    progressState.value = ProgressStatus.Fail
-                }
-                is ApiResultWrapper.OtherError -> {
-                    messagesSnackbar.value = deleteCityUseCaseResult.message
-                    progressState.value = ProgressStatus.Fail
-                }
-                is ApiResultWrapper.Success -> {
-                    updateList()
-                    progressState.value = ProgressStatus.Done
-                    messagesSnackbar.value = "Delete success"
-                }
-            }
+            perfomAction(deleteCityUseCase(city.id), "Delete success")
+            updateList()
         }
     }
 
-    fun updateItem(city: CityDto, id: Long)
-    {
+    fun updateItem(city: CityDto, id: Long) {
         viewModelScope.launch {
-            progressState.value = ProgressStatus.InProgress
-            when (val updateCityUseCaseResult = updateCityUseCase(city, id)) {
-                is ApiResultWrapper.NetworkError -> {
-                    messagesSnackbar.value = "Network Error"
-                    progressState.value = ProgressStatus.Fail
-                }
-                is ApiResultWrapper.ApiError -> {
-                    messagesSnackbar.value = updateCityUseCaseResult.code?.toString()
-                    progressState.value = ProgressStatus.Fail
-                }
-                is ApiResultWrapper.OtherError -> {
-                    messagesSnackbar.value = updateCityUseCaseResult.message
-                    progressState.value = ProgressStatus.Fail
-                }
-                is ApiResultWrapper.Success -> {
-                    updateList()
-                    progressState.value = ProgressStatus.Done
-                }
-            }
+            perfomAction(updateCityUseCase(city, id), "City updated")
+            updateList()
         }
     }
 
     fun addItem(city: CityDto) {
         viewModelScope.launch {
-            progressState.value = ProgressStatus.InProgress
-            when (val addCityUseCaseResult = addCityUseCase(city)) {
-                is ApiResultWrapper.NetworkError -> {
-                    messagesSnackbar.value = "Network Error"
-                    progressState.value = ProgressStatus.Fail
-                }
-                is ApiResultWrapper.ApiError -> {
-                    messagesSnackbar.value = addCityUseCaseResult.code?.toString()
-                    progressState.value = ProgressStatus.Fail
-                }
-                is ApiResultWrapper.OtherError -> {
-                    messagesSnackbar.value = addCityUseCaseResult.message
-                    progressState.value = ProgressStatus.Fail
-                }
-                is ApiResultWrapper.Success -> {
-                    updateList()
-                    progressState.value = ProgressStatus.Done
-                    messagesSnackbar.value = "City Added"
-                }
-            }
+            perfomAction(addCityUseCase(city), "City Added")
+            updateList()
         }
+
     }
 
     private fun updateList() {
         viewModelScope.launch {
-            progressState.value = ProgressStatus.InProgress
-            when (val getCitiesListUseCaseResult = getCitiesListUseCase()) {
-                is ApiResultWrapper.NetworkError -> {
-                    messagesSnackbar.value = "Network Error"
-                    progressState.value = ProgressStatus.Fail
-                }
-                is ApiResultWrapper.ApiError -> {
-                    messagesSnackbar.value = getCitiesListUseCaseResult.code?.toString()
-                    progressState.value = ProgressStatus.Fail
-                }
-                is ApiResultWrapper.OtherError -> {
-                    messagesSnackbar.value = getCitiesListUseCaseResult.message
-                    progressState.value = ProgressStatus.Fail
-                }
-                is ApiResultWrapper.Success -> {
-                    cityList.value = getCitiesListUseCaseResult.result
-                    progressState.value = ProgressStatus.Done
-                }
-            }
+            perfomAction(getCitiesListUseCase())
         }
     }
 
-
+    private fun <T> perfomAction(useCase: ApiResultWrapper<T>, message: String? = null) {
+        progressState.value = ProgressStatus.InProgress
+        when (useCase) {
+            is ApiResultWrapper.NetworkError -> {
+                messagesSnackbar.value = "Network Error"
+                progressState.value = ProgressStatus.Fail
+            }
+            is ApiResultWrapper.ApiError -> {
+                messagesSnackbar.value = "API error. Code ${useCase.code?.toString()}"
+                progressState.value = ProgressStatus.Fail
+            }
+            is ApiResultWrapper.OtherError -> {
+                messagesSnackbar.value = useCase.message
+                progressState.value = ProgressStatus.Fail
+            }
+            is ApiResultWrapper.Success -> {
+                progressState.value = ProgressStatus.Done
+                message?.let { messagesSnackbar.value = it }
+                if (useCase.result.isNotEmptyCityList())
+                    cityList.value = useCase.result as List<City>
+            }
+        }
+    }
 }
+
+private fun <T> T.isNotEmptyCityList() =
+    try {
+        this as List<City>
+        true
+    } catch (e: Exception) {
+        false
+    }
+
+
+
