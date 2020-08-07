@@ -7,3 +7,4 @@ data class City(
     val city: String,
     val temperature: Int
 ) : Serializable
+

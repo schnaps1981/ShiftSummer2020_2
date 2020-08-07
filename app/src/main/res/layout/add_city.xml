@@ -33,6 +33,7 @@
                 android:id="@+id/tvAddCityCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/design_default_color_background"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -54,6 +55,7 @@
                 android:id="@+id/tvAddCityTemperature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/design_default_color_background"
                 android:inputType="numberSigned" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>

@@ -1,12 +1,14 @@
 package com.shiftsummer2020_2.global.baseadapter
 
+import android.view.View
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import exapmle.com.common.City
 
 
 abstract class BaseAdapter<P>(
     private val onClickListener: ((P) -> Unit)? = null,
-    private val onLongClickListener: ((P) -> Boolean)? = null
+    private val onLongClickListener: ((P, View) -> Boolean)? = null
 ) :
     RecyclerView.Adapter<BaseViewHolder<P>>() {
     protected var mDataList: MutableList<P> = ArrayList()
@@ -41,7 +43,7 @@ abstract class BaseAdapter<P>(
         }
 
         holder.itemView.setOnLongClickListener{
-            onLongClickListener?.invoke(mDataList[position]) ?: false
+            onLongClickListener?.invoke(mDataList[position], it) ?: false
         }
     }
 

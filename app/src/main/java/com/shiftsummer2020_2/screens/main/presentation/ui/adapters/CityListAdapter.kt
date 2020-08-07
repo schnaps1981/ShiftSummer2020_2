@@ -1,6 +1,7 @@
 package com.shiftsummer2020_2.screens.main.presentation.ui.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.shiftsummer2020_2.R
 import com.shiftsummer2020_2.global.baseadapter.BaseAdapter
@@ -10,7 +11,7 @@ import exapmle.com.common.City
 
 class CityListAdapter(
     onClickListener: ((City) -> Unit)? = null,
-    onLongClickListener: ((City) -> Boolean)? = null
+    onLongClickListener: ((City, View) -> Boolean)? = null
 ) : BaseAdapter<City>(onClickListener, onLongClickListener) {
 
     init {

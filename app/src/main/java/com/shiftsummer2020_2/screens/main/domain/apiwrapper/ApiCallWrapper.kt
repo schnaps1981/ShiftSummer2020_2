@@ -14,7 +14,7 @@ suspend fun <T> apiCallWrapper(apiCall: suspend () -> T): ApiResultWrapper<T> {
             when (throwable) {
                 is IOException -> ApiResultWrapper.NetworkError
                 is HttpException -> ApiResultWrapper.ApiError(throwable.code())
-                else -> ApiResultWrapper.ApiError(null)
+                else -> ApiResultWrapper.OtherError(throwable.message)
             }
         }
     }

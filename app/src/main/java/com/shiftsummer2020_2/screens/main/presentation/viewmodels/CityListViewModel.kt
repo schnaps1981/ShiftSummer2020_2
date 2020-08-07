@@ -3,6 +3,7 @@ package com.shiftsummer2020_2.screens.main.presentation.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shiftsummer2020_2.global.viewmodel.ProgressStatus
 import com.shiftsummer2020_2.global.viewmodel.SingleLiveEvent
 import com.shiftsummer2020_2.screens.main.domain.AddCityUseCase
 import com.shiftsummer2020_2.screens.main.domain.DeleteCityUseCase
@@ -21,39 +22,120 @@ class CityListViewModel(
 ) : ViewModel() {
 
     val cityList = MutableLiveData<List<City>?>()
-    val errors = MutableLiveData<String>()
 
-    val cityClickEvent = SingleLiveEvent<City>()
-    val cityAddEvent = SingleLiveEvent<City>()
+    val messagesSnackbar = SingleLiveEvent<String>()
+    val cityItemClickEvent = SingleLiveEvent<City>()
+    val progressState = SingleLiveEvent<ProgressStatus>()
+
 
     init {
+        updateList()
+    }
+
+
+    fun cityClicked(city: City) {
+        cityItemClickEvent(city)
+    }
+
+    fun deleteItem(city: City)
+    {
         viewModelScope.launch {
-            when (val getCitiesListUseCaseResult = getCitiesListUseCase())
-            {
-                is ApiResultWrapper.NetworkError -> errors.value = "Network Error"
-                is ApiResultWrapper.ApiError -> errors.value = getCitiesListUseCaseResult.code?.toString()
-                is ApiResultWrapper.Success -> cityList.value = getCitiesListUseCaseResult.result
+            progressState.value = ProgressStatus.InProgress
+            when (val deleteCityUseCaseResult = deleteCityUseCase(city.id)) {
+                is ApiResultWrapper.NetworkError -> {
+                    messagesSnackbar.value = "Network Error"
+                    progressState.value = ProgressStatus.Fail
+                }
+                is ApiResultWrapper.ApiError -> {
+                    messagesSnackbar.value = deleteCityUseCaseResult.code?.toString()
+                    progressState.value = ProgressStatus.Fail
+                }
+                is ApiResultWrapper.OtherError -> {
+                    messagesSnackbar.value = deleteCityUseCaseResult.message
+                    progressState.value = ProgressStatus.Fail
+                }
+                is ApiResultWrapper.Success -> {
+                    updateList()
+                    progressState.value = ProgressStatus.Done
+                    messagesSnackbar.value = "Delete success"
+                }
             }
         }
     }
 
-    fun cityClicked(city: City) {
-        cityClickEvent(city)
-    }
-
-    fun cityAdded(city: City) {
-        //cityListSource.add(city)
-//        cityList.value = cityListSource()
-//        cityAddEvent(city)
-    }
-
-    fun cityClickedLong(city: City): Boolean {
-        return false
-    }
-
-    fun addCity(city: String, temperature: Int) {
+    fun updateItem(city: CityDto, id: Long)
+    {
         viewModelScope.launch {
-            addCityUseCase.invoke(CityDto(city = city, temperature = temperature))
+            progressState.value = ProgressStatus.InProgress
+            when (val updateCityUseCaseResult = updateCityUseCase(city, id)) {
+                is ApiResultWrapper.NetworkError -> {
+                    messagesSnackbar.value = "Network Error"
+                    progressState.value = ProgressStatus.Fail
+                }
+                is ApiResultWrapper.ApiError -> {
+                    messagesSnackbar.value = updateCityUseCaseResult.code?.toString()
+                    progressState.value = ProgressStatus.Fail
+                }
+                is ApiResultWrapper.OtherError -> {
+                    messagesSnackbar.value = updateCityUseCaseResult.message
+                    progressState.value = ProgressStatus.Fail
+                }
+                is ApiResultWrapper.Success -> {
+                    updateList()
+                    progressState.value = ProgressStatus.Done
+                }
+            }
         }
     }
+
+    fun addItem(city: CityDto) {
+        viewModelScope.launch {
+            progressState.value = ProgressStatus.InProgress
+            when (val addCityUseCaseResult = addCityUseCase(city)) {
+                is ApiResultWrapper.NetworkError -> {
+                    messagesSnackbar.value = "Network Error"
+                    progressState.value = ProgressStatus.Fail
+                }
+                is ApiResultWrapper.ApiError -> {
+                    messagesSnackbar.value = addCityUseCaseResult.code?.toString()
+                    progressState.value = ProgressStatus.Fail
+                }
+                is ApiResultWrapper.OtherError -> {
+                    messagesSnackbar.value = addCityUseCaseResult.message
+                    progressState.value = ProgressStatus.Fail
+                }
+                is ApiResultWrapper.Success -> {
+                    updateList()
+                    progressState.value = ProgressStatus.Done
+                    messagesSnackbar.value = "City Added"
+                }
+            }
+        }
+    }
+
+    private fun updateList() {
+        viewModelScope.launch {
+            progressState.value = ProgressStatus.InProgress
+            when (val getCitiesListUseCaseResult = getCitiesListUseCase()) {
+                is ApiResultWrapper.NetworkError -> {
+                    messagesSnackbar.value = "Network Error"
+                    progressState.value = ProgressStatus.Fail
+                }
+                is ApiResultWrapper.ApiError -> {
+                    messagesSnackbar.value = getCitiesListUseCaseResult.code?.toString()
+                    progressState.value = ProgressStatus.Fail
+                }
+                is ApiResultWrapper.OtherError -> {
+                    messagesSnackbar.value = getCitiesListUseCaseResult.message
+                    progressState.value = ProgressStatus.Fail
+                }
+                is ApiResultWrapper.Success -> {
+                    cityList.value = getCitiesListUseCaseResult.result
+                    progressState.value = ProgressStatus.Done
+                }
+            }
+        }
+    }
+
+
 }
