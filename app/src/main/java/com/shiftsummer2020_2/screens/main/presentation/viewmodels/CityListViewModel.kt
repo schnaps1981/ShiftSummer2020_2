@@ -8,6 +8,7 @@ import com.shiftsummer2020_2.screens.main.domain.AddCityUseCase
 import com.shiftsummer2020_2.screens.main.domain.DeleteCityUseCase
 import com.shiftsummer2020_2.screens.main.domain.GetCitiesListUseCase
 import com.shiftsummer2020_2.screens.main.domain.UpdateCityUseCase
+import com.shiftsummer2020_2.screens.main.domain.apiwrapper.ApiResultWrapper
 import exapmle.com.common.City
 import exapmle.com.common.CityDto
 import kotlinx.coroutines.launch
@@ -27,10 +28,11 @@ class CityListViewModel(
 
     init {
         viewModelScope.launch {
-            try {
-                cityList.value = getCitiesListUseCase()
-            } catch (e: Exception) {
-                errors.value = e.localizedMessage
+            when (val getCitiesListUseCaseResult = getCitiesListUseCase())
+            {
+                is ApiResultWrapper.NetworkError -> errors.value = "Network Error"
+                is ApiResultWrapper.ApiError -> errors.value = getCitiesListUseCaseResult.code?.toString()
+                is ApiResultWrapper.Success -> cityList.value = getCitiesListUseCaseResult.result
             }
         }
     }

@@ -34,7 +34,7 @@ class CityListViewModelFactory : ViewModelProvider.Factory {
             val api = retrofit.create(CitiesApi::class.java)
 
             val citiesDataSource = CitiesNetworkDataSourceImpl(api = api)
-            val citiesRepository = CitiesRepositoryImpl(citiesDataSource = citiesDataSource)
+            val citiesRepository = CitiesRepositoryImpl(citiesNetworkDataSource = citiesDataSource)
             val getCitiesListUseCase = GetCitiesListUseCase(citiesRepository = citiesRepository)
             val addCityUseCase = AddCityUseCase(citiesRepository = citiesRepository)
             val deleteCityUseCase = DeleteCityUseCase(citiesRepository = citiesRepository)
