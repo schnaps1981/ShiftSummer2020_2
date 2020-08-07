@@ -37,6 +37,7 @@ class CitiesRepository {
     suspend fun update(id: Long, createCityDto: CityDto) {
         dbQuery {
             Cities.update({ Cities.id eq id }) { updateStatement ->
+                updateStatement[city] = createCityDto.city
                 updateStatement[temperature] = createCityDto.temperature
             }
         }
